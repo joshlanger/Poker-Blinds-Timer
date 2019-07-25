@@ -38,7 +38,8 @@
         let levelMinutes = @Model.LevelMinutes;
         let levelSeconds = @Model.LevelSeconds;
 
-    const tournamentStructure = @Model.BlindStructure;
+    @*const tournamentStructure = @Model.BlindStructure;*@
+    //note that the above, when uncommented was breaking your code
 
     let timerInterval;
 
@@ -50,7 +51,7 @@
                 levelSeconds = @Model.LevelSeconds;
                 
             }
-            if (levelMinutes > 0 || levelSeconds > 0) {
+            else {
                 if (levelMinutes > 0 && levelSeconds === 0) {
                     levelMinutes -= 1;
                     levelSeconds = 60;
@@ -59,24 +60,25 @@
                 else {
                     levelSeconds--;
                 }
-
-                document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + levelSeconds.toString();
+                
+                document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + addZero().toString();
             }
-            else {
-              @* write code to increment level*@
-            }
-
+            
         }, 1000);
     }
 
     function pauseTimer() {
         clearInterval(timerInterval);
     }
-    //test
-    function displayLevel() {
-        
-        
+
+    function addZero() {
+        if (levelSeconds < 10) {
+            let plusZero = '0' + levelSeconds;
+            return plusZero;
+        }
+        return levelSeconds;
     }
+    
 </script>
 
 
