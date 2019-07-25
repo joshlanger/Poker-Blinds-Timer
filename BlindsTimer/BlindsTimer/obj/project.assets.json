@@ -12942,11 +12942,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Joshua Langer\\source\\repos\\BlindsTimer\\BlindsTimer\\BlindsTimer.csproj",
+      "projectUniqueName": "C:\\Users\\Joshua Langer\\BlindsTimer\\Poker-Blinds-Timer\\BlindsTimer\\BlindsTimer\\BlindsTimer.csproj",
       "projectName": "BlindsTimer",
-      "projectPath": "C:\\Users\\Joshua Langer\\source\\repos\\BlindsTimer\\BlindsTimer\\BlindsTimer.csproj",
+      "projectPath": "C:\\Users\\Joshua Langer\\BlindsTimer\\Poker-Blinds-Timer\\BlindsTimer\\BlindsTimer\\BlindsTimer.csproj",
       "packagesPath": "C:\\Users\\Joshua Langer\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Joshua Langer\\source\\repos\\BlindsTimer\\BlindsTimer\\obj\\",
+      "outputPath": "C:\\Users\\Joshua Langer\\BlindsTimer\\Poker-Blinds-Timer\\BlindsTimer\\BlindsTimer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

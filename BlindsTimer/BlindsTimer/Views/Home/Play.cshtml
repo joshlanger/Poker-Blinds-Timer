@@ -37,7 +37,9 @@
 
         let levelMinutes = @Model.LevelMinutes;
         let levelSeconds = @Model.LevelSeconds;
-    
+
+    const tournamentStructure = @Model.BlindStructure;
+
     let timerInterval;
 
     function levelTimer() {
@@ -70,12 +72,9 @@
     function pauseTimer() {
         clearInterval(timerInterval);
     }
-
-    var currentLevel = 1;
-
-    function displayLevel(currentLevel) {
+    //test
+    function displayLevel() {
         
-        @*let smallBlind = @Model.BlindStructure[currentLevel - 1];*@
         
     }
 </script>
