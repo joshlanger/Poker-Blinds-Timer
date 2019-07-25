@@ -1,0 +1,16 @@
+﻿@model Tournament
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Tournament Configuration</h2>
+<form asp-controller="Home" asp-action="BlindConfiguration" method="get">
+    <div>
+        <label asp-for="NumberOfLevels">Enter the number of levels</label>
+        <input asp-for="NumberOfLevels" />
+    </div>
+   
+    <div>
+        <input type="submit" value="Submit"/>
+    </div>
+</form>

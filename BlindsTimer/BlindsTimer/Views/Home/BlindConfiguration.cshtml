@@ -1,0 +1,31 @@
+﻿@model Tournament
+@{
+    ViewData["Title"] = "BlindConfiguration";
+}
+
+<h1>Blind Configuration</h1>
+
+<form asp-controller="Home" asp-action="Play" method="get">
+    <div>
+        <label asp-for="LevelMinutes">Length of each level in minutes</label>
+        <input asp-for="LevelMinutes" />
+    </div>
+    <div>
+        <label asp-for="BreakFrequency">Take breaks after how many levels?</label>
+        <input asp-for="BreakFrequency" />
+    </div>
+    <div>
+        <label asp-for="BreakLength">How long should breaks be?</label>
+        <input asp-for="BreakLength" />
+    </div>
+
+    @for (int i = 0; i < Model.NumberOfLevels; i++)
+    {
+        <div>
+            <label asp-for="BlindStructure[i]">Enter blinds for level @(i + 1)</label>
+            <input asp-for="BlindStructure[i].BigBlind" />
+            <input asp-for="BlindStructure[i].SmallBlind" />
+        </div>
+    }
+    <input type="submit" value="Submit" />
+</form>

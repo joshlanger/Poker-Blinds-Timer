@@ -1,0 +1,85 @@
+﻿@model Tournament
+@{
+    ViewData["Title"] = "Play";
+    Model.Start();
+}
+
+<h1>Play</h1>
+<p></p>
+<div>
+    <button onclick="levelTimer();">Start</button>
+    <button onclick="pauseTimer();">Pause</button>
+</div>
+<p></p>
+
+
+        @*<div id="currentlevel">
+
+            <p id="level"></p>
+            <p id="blinds"></p>
+            <p id="timer"></p>
+
+        </div>*@
+ 
+
+@foreach (KeyValuePair<int, Level> kvp in Model.BlindStructure)
+    {
+        <div>
+
+            <p>Level @(kvp.Key + 1)</p>
+            <p>Blinds @kvp.Value.BigBlind / @kvp.Value.SmallBlind</p>
+            <p id="timer"></p>
+
+        </div>
+    }
+
+<script>
+
+        let levelMinutes = @Model.LevelMinutes;
+        let levelSeconds = @Model.LevelSeconds;
+    
+    let timerInterval;
+
+    function levelTimer() {
+
+        timerInterval = setInterval(function () {
+            if (levelMinutes === 0 && levelSeconds === 0) {
+                levelMinutes = @Model.LevelMinutes;
+                levelSeconds = @Model.LevelSeconds;
+                
+            }
+            if (levelMinutes > 0 || levelSeconds > 0) {
+                if (levelMinutes > 0 && levelSeconds === 0) {
+                    levelMinutes -= 1;
+                    levelSeconds = 60;
+                    levelSeconds--;
+                }
+                else {
+                    levelSeconds--;
+                }
+
+                document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + levelSeconds.toString();
+            }
+            else {
+              @* write code to increment level*@
+            }
+
+        }, 1000);
+    }
+
+    function pauseTimer() {
+        clearInterval(timerInterval);
+    }
+
+    var currentLevel = 1;
+
+    function displayLevel(currentLevel) {
+        
+        @*let smallBlind = @Model.BlindStructure[currentLevel - 1];*@
+        
+    }
+</script>
+
+
+
+
