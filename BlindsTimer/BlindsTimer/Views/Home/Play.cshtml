@@ -4,7 +4,7 @@
     Model.Start();
 }
 
-<h1>Play</h1>
+<h1>Timer</h1>
 <p></p>
 <div>
     <button onclick="levelTimer();">Start</button>
@@ -13,34 +13,37 @@
 <p></p>
 
 
-        @*<div id="currentlevel">
+<div id="current" class="box-shadow container-fluid" style="background-color:darkseagreen; padding:20px; margin-bottom:20px; display:flex; height:200px;">
+    <div class="col-md-6" style="display:flex; flex-direction:column; justify-content: space-between;">
+        <p id="level" class="maintext"></p>
+        <p id="blinds" class="maintext"></p>
+    </div>
+    <div class="col-md-6" style="display:flex; flex-direction:column; align-items:center; justify-content:center">
+        <p id="timer" style="font-size:500%;  font-weight:600; text-shadow:2px 2px 0 #999"></p>
+    </div>
+</div>
 
-            <p id="level"></p>
-            <p id="blinds"></p>
-            <p id="timer"></p>
+<div id="next" class="container-fluid box-shadow" style="display:flex; padding:20px; background-color:lightgrey;" >
+    <div class="col-md-6" style="display:flex; align-items:center">
+        <p style="font-size:300%;  font-weight:600; text-shadow:2px 2px 0 #999">Up Next:</p>
+    </div>
+    <div class="col-md-6 maintext rightside">
+        <p id="nextLevel"></p>
+        <p id="nextBlinds"></p>
+    </div>
+    
+    
+</div>
 
-        </div>*@
- 
-
-@foreach (KeyValuePair<int, Level> kvp in Model.BlindStructure)
-    {
-        <div>
-
-            <p>Level @(kvp.Key + 1)</p>
-            <p>Blinds @kvp.Value.BigBlind / @kvp.Value.SmallBlind</p>
-            <p id="timer"></p>
-
-        </div>
-    }
 
 <script>
 
-        let levelMinutes = @Model.LevelMinutes;
-        let levelSeconds = @Model.LevelSeconds;
+    let levelMinutes = @Model.LevelMinutes;
+    let levelSeconds = @Model.LevelSeconds;
+    let currentLevel = 0;
+    let nextlevel = 1;
 
-    @*const tournamentStructure = @Model.BlindStructure;*@
-    //note that the above, when uncommented was breaking your code
-
+    const blindStructure = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@Model.BlindStructure));
     let timerInterval;
 
     function levelTimer() {
@@ -49,7 +52,10 @@
             if (levelMinutes === 0 && levelSeconds === 0) {
                 levelMinutes = @Model.LevelMinutes;
                 levelSeconds = @Model.LevelSeconds;
-                
+                currentLevel++;
+                nextlevel++;
+                displayLevel();
+                displayNextLevel();
             }
             else {
                 if (levelMinutes > 0 && levelSeconds === 0) {
@@ -60,10 +66,10 @@
                 else {
                     levelSeconds--;
                 }
-                
+
                 document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + addZero().toString();
             }
-            
+
         }, 1000);
     }
 
@@ -78,7 +84,26 @@
         }
         return levelSeconds;
     }
-    
+
+    function displayLevel() {
+        for (var key in blindStructure) {
+            if (key == currentLevel) {
+                document.getElementById("blinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
+                document.getElementById("level").innerHTML = 'Level ' + (currentLevel + 1);
+            }
+        }
+    }
+    function displayNextLevel() {
+        for (var key in blindStructure) {
+            if (key == nextlevel) {
+                document.getElementById("nextBlinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
+                document.getElementById("nextLevel").innerHTML = 'Level ' + (currentLevel + 2);
+            } 
+        }
+    }
+    displayLevel();
+    displayNextLevel();
+
 </script>
 
 

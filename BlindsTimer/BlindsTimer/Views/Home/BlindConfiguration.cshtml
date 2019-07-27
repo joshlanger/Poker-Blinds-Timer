@@ -23,8 +23,8 @@
     {
         <div>
             <label asp-for="BlindStructure[i]">Enter blinds for level @(i + 1)</label>
-            <input asp-for="BlindStructure[i].BigBlind" />
             <input asp-for="BlindStructure[i].SmallBlind" />
+            <input asp-for="BlindStructure[i].BigBlind" />
         </div>
     }
     <input type="submit" value="Submit" />
