@@ -1,7 +1,7 @@
 ﻿@model Tournament
 @{
     ViewData["Title"] = "Play";
-    Model.Start();
+    
 }
 
 <h1>Timer</h1>
@@ -39,7 +39,7 @@
 <script>
 
     let levelMinutes = @Model.LevelMinutes;
-    let levelSeconds = @Model.LevelSeconds;
+    let levelSeconds = 0;
     let currentLevel = 0;
     let nextlevel = 1;
 
@@ -51,7 +51,7 @@
         timerInterval = setInterval(function () {
             if (levelMinutes === 0 && levelSeconds === 0) {
                 levelMinutes = @Model.LevelMinutes;
-                levelSeconds = @Model.LevelSeconds;
+                levelSeconds = 0;
                 currentLevel++;
                 nextlevel++;
                 displayLevel();

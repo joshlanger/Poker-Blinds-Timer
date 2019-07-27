@@ -28,8 +28,7 @@ namespace BlindsTimer.Controllers
 
         public IActionResult Play (Tournament tournament)
         {
-            tournament.LevelTime = tournament.GetLevelTime(tournament.LevelMinutes);
-            tournament.CurrentLevel = 1;
+           
             return View(tournament);
         }
 
