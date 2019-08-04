@@ -12,19 +12,7 @@ namespace BlindsTimer.Controllers
     {
         public IActionResult Index()
         {
-            //Tournament Default = new Tournament();
-            //Dictionary<int, Level> DefaultStructure = new Dictionary<int, Level>();
-            //Default.BlindStructure = Default.SetDefaultBlindStructure();
             return View();
-        }
-
-        public IActionResult SetDefault()
-        {
-            Tournament Tournament = new Tournament();
-            
-            Tournament.BlindStructure = Tournament.BlindStructureLoader();
-            Tournament.LevelMinutes = 15;
-            return RedirectToAction("Play", Tournament);
         }
 
         public IActionResult Privacy()
