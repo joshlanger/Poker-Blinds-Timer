@@ -10,6 +10,5 @@ namespace BlindsTimer.Models
         public int BigBlind { get; set; }
         public int SmallBlind { get; set; }
 
-
     }
 }

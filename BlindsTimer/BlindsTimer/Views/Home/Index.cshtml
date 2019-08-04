@@ -4,6 +4,35 @@
 }
 
 <h2>Tournament Configuration</h2>
+<p></p>
+<p>There are two options for configuring the tournament.  You can save time by selecting the default structure, or create your own custom structure.  The default structure has 15 minute levels.  The blinds are as follows:</p>
+<ul style="list-style:none">
+    <li>Level 1: 25/50</li>
+    <li>Level 2: 50/100</li>
+    <li>Level 3: 75/150</li>
+    <li>Level 4: 100/200</li>
+    <li>Level 5: 150/300</li>
+    <li>Level 6: 200/400</li>
+    <li>Level 7: 250/500</li>
+    <li>Level 8: 300/600</li>
+    <li>Level 9: 400/800</li>
+    <li>Level 10: 500/1000</li>
+    <li>Level 11: 600/1200</li>
+    <li>Level 12: 700/1400</li>
+    <li>Level 13: 800/1600</li>
+    <li>Level 14: 1000/2000</li>
+</ul>
+<p>Click here to select the default, or begin configuring your own tournament below.</p>
+<form asp-controller="Home" asp-action="Play" method="get">
+  
+    <div>
+        <label asp-for="LevelMinutes">Enter the length of each level in minutes</label>
+        <input asp-for="LevelMinutes"/>
+    </div>
+    <div>
+        <input type="submit" value="Default" />
+    </div>
+</form>
 <form asp-controller="Home" asp-action="BlindConfiguration" method="get">
     <div>
         <label asp-for="NumberOfLevels">Enter the number of levels</label>
