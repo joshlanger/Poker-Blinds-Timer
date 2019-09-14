@@ -11,6 +11,10 @@
 </div>
 <p></p>
 
+<audio id="sound">
+    <source src="~/sounds/zapsplat_technology_cb_radio_two_way_beep_single_39804.mp3"/>
+</audio>
+
 
 <div id="current" class="box-shadow container-fluid" style="background-color:darkseagreen; padding:20px; margin-bottom:20px; display:flex; height:200px;">
     <div class="col-md-6" style="display:flex; flex-direction:column; justify-content: space-between;">
@@ -62,6 +66,12 @@
                     levelSeconds = 60;
                     levelSeconds--;
                 }
+                if (levelSeconds <= 6)
+                {
+                    
+                    levelSeconds--
+                    beep();
+                }
                 else {
                     levelSeconds--;
                 }
@@ -99,6 +109,11 @@
                 document.getElementById("nextLevel").innerHTML = 'Level ' + (currentLevel + 2);
             } 
         }
+    }
+
+    function beep() {
+        const mySound = document.getElementById("sound");
+        mySound.play();
     }
     displayLevel();
     displayNextLevel();
