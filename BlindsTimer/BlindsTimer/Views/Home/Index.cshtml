@@ -5,8 +5,31 @@
 
 <h2>Tournament Configuration</h2>
 <p></p>
-<p>There are two options for configuring the tournament.  You can save time by selecting the default structure, or create your own custom structure.  The default structure has 15 minute levels.  The blinds are as follows:</p>
+<p>There are two options for configuring the tournament:</p>
+<ol>
+    <li style="padding-bottom:2.5%">
+        Create your own tournament structure
+        <ul>
+            <li>
+                Choosing this option allows you to configure each aspect of the tournament,
+                including the number of levels, the blinds of each level, the level length, and the breaks.
+            </li>
+        </ul>
+    </li>
+    
+    <li>
+        Use the default structure
+        <ul>
+            <li>
+                This option saves time by setting up most aspects of the tournament for you automatically.  You will still be able to set the
+                length of the levels. This is a good choice for most single table home games.
+            </li>
+        </ul>
+    </li>
+</ol>
+    
 <ul style="list-style:none">
+    <li style="font-weight:500">Default Structure:</li>
     <li>Level 1: 25/50</li>
     <li>Level 2: 50/100</li>
     <li>Level 3: 75/150</li>
@@ -24,10 +47,10 @@
 </ul>
 <p>Click here to select the default, or begin configuring your own tournament below.</p>
 <form asp-controller="Home" asp-action="Play" method="get">
-  
+
     <div>
         <label asp-for="LevelMinutes">Enter the length of each level in minutes</label>
-        <input asp-for="LevelMinutes"/>
+        <input asp-for="LevelMinutes" />
     </div>
     <div>
         <input type="submit" value="Default" />
@@ -38,8 +61,8 @@
         <label asp-for="NumberOfLevels">Enter the number of levels</label>
         <input asp-for="NumberOfLevels" />
     </div>
-   
+
     <div>
-        <input type="submit" value="Submit"/>
+        <input type="submit" value="Submit" />
     </div>
 </form>

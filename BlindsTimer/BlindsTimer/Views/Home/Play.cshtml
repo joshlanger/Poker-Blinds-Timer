@@ -60,17 +60,17 @@
                 displayLevel();
                 displayNextLevel();
             }
+            if (levelMinutes === 0 && levelSeconds <= 6)
+            {
+                levelSeconds--;
+                document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + addZero().toString();
+                beep();
+             }
             else {
                 if (levelMinutes > 0 && levelSeconds === 0) {
                     levelMinutes -= 1;
                     levelSeconds = 60;
                     levelSeconds--;
-                }
-                if (levelSeconds <= 6)
-                {
-                    
-                    levelSeconds--
-                    beep();
                 }
                 else {
                     levelSeconds--;
