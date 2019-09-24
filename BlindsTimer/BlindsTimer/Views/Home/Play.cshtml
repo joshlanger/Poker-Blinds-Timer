@@ -46,7 +46,7 @@
     let currentLevel = 0;
     let nextlevel = 1;
 
-    //note that you will need to pass a value into the default model for levelFrequency
+    
 
     let breakMinutes = @Model.BreakLength;
     //let breakSeconds = 0;
@@ -62,7 +62,7 @@
                 displayBreak();
                 levelMinutes = @Model.LevelMinutes;
                 levelSeconds = 0;
-                currentLevel++;
+                currentLevel++;//this whole code block is executing; current level is getting incremented when it shouldn't be?
                 nextlevel++;
                 displayLevel();
                 displayNextLevel();
@@ -91,9 +91,10 @@
     function breakTimer() {
         breakTimerInterval = setInterval(function () {
             if (breakMinutes === 0 && levelSeconds === 0) {
+                pauseBreakTimer();//this may need to be changed to a function the clears the timer. MOVED from below breakMinutes
                 levelTimer();
                 breakMinutes = @Model.BreakLength;
-                pauseBreakTimer(); //this may need to be changed to a function the clears the timer
+                
                 //something to remove the display of break
             }
             if (breakMinutes === 0 && levelSeconds <= 6) {
@@ -113,7 +114,7 @@
 
                 document.getElementById("timer").innerHTML = breakMinutes.toString() + ' : ' + addZero().toString();
             }
-        }, 1000)
+        }, 1000);
             
     }
 
@@ -135,7 +136,10 @@
 
     function displayLevel() {
         for (var key in blindStructure) {
-            if (key == currentLevel) {
+            if ((currentLevel + 1) % @Model.BreakFrequency === 0 && breakMinutes < @Model.BreakLength) {
+                document.getElementById("level").innerHTML = 'Break'
+            }
+            else if (key == currentLevel) {
                 document.getElementById("blinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
                 document.getElementById("level").innerHTML = 'Level ' + (currentLevel + 1);
             }
@@ -150,7 +154,7 @@
         }
     }
     function displayBreak() {
-        if ((currentLevel + 1) % @Model.BreakFrequency === 0) {
+        if ((currentLevel + 2) % @Model.BreakFrequency === 0) {
             pauseTimer();
             breakTimer();
         }

@@ -53,6 +53,13 @@
         <input asp-for="LevelMinutes" />
     </div>
     <div>
+        <label asp-for="BreakLength">How long should each break be?</label>
+        <input asp-for="BreakLength" />
+    </div>
+    <div>
+        <input type="hidden" asp-for="BreakFrequency" value="2" />
+    </div>
+    <div>
         <input type="submit" value="Default" />
     </div>
 </form>
