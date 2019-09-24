@@ -46,13 +46,20 @@
     let currentLevel = 0;
     let nextlevel = 1;
 
+    //note that you will need to pass a value into the default model for levelFrequency
+
+    let breakMinutes = @Model.BreakLength;
+    //let breakSeconds = 0;
+
     const blindStructure = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@Model.BlindStructure));
     let timerInterval;
+    let breakTimerInterval;
 
     function levelTimer() {
 
         timerInterval = setInterval(function () {
             if (levelMinutes === 0 && levelSeconds === 0) {
+                displayBreak();
                 levelMinutes = @Model.LevelMinutes;
                 levelSeconds = 0;
                 currentLevel++;
@@ -81,9 +88,41 @@
 
         }, 1000);
     }
+    function breakTimer() {
+        breakTimerInterval = setInterval(function () {
+            if (breakMinutes === 0 && levelSeconds === 0) {
+                levelTimer();
+                breakMinutes = @Model.BreakLength;
+                pauseBreakTimer(); //this may need to be changed to a function the clears the timer
+                //something to remove the display of break
+            }
+            if (breakMinutes === 0 && levelSeconds <= 6) {
+                levelSeconds--;
+                document.getElementById("timer").innerHTML = breakMinutes.toString() + ' : ' + addZero().toString();
+                beep();
+            }
+            else {
+                if (breakMinutes > 0 && levelSeconds === 0) {
+                    breakMinutes -= 1;
+                    levelSeconds = 60;
+                    levelSeconds--;
+                }
+                else {
+                    levelSeconds--;
+                }
+
+                document.getElementById("timer").innerHTML = breakMinutes.toString() + ' : ' + addZero().toString();
+            }
+        }, 1000)
+            
+    }
 
     function pauseTimer() {
         clearInterval(timerInterval);
+    }
+
+    function pauseBreakTimer() {
+        clearInterval(breakTimerInterval);
     }
 
     function addZero() {
@@ -108,6 +147,12 @@
                 document.getElementById("nextBlinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
                 document.getElementById("nextLevel").innerHTML = 'Level ' + (currentLevel + 2);
             } 
+        }
+    }
+    function displayBreak() {
+        if ((currentLevel + 1) % @Model.BreakFrequency === 0) {
+            pauseTimer();
+            breakTimer();
         }
     }
 
