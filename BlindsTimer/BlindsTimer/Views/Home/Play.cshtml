@@ -44,9 +44,9 @@
     let levelMinutes = @Model.LevelMinutes;
     let levelSeconds = 0;
     let currentLevel = 0;
-    let nextlevel = 1;
+    let nextLevel = 1;
 
-    
+   
 
     let breakMinutes = @Model.BreakLength;
     let breakSeconds = 0;
@@ -64,14 +64,17 @@
                     levelSeconds = 1;
                     breakTimer();
                     displayBreak();
-                    clearLevel();
+                    clearBlinds();
+                    currentLevel++;
+                    //nextLevel++;
+                    displayNextLevel();
                 }
                 else {
                     
                     levelMinutes = @Model.LevelMinutes;
                     levelSeconds = 0;
                     currentLevel++;
-                    nextlevel++;
+                    nextLevel++;
                     displayLevel();
                     displayNextLevel();
                 }
@@ -101,15 +104,14 @@
         breakTimerInterval = setInterval(function () {
             if (breakMinutes === 0 && breakSeconds === 0) {
                 pauseBreakTimer();
-                 levelMinutes = @Model.LevelMinutes;
-                    breakSeconds = 0; //this or somewhere in this block my cause an error
-                    currentLevel++;
-                    nextlevel++;
-                    displayLevel();
-                    displayNextLevel();
+                levelMinutes = @Model.LevelMinutes;
+                nextLevel++;
+                displayLevel();
+                displayNextLevel();
+                levelSeconds = 59;// added this to try and prevent the clock skip. this makes the following level go to 2 minutes instead of 1.
                 levelTimer();
                 breakMinutes = @Model.BreakLength;
-              
+                breakSeconds = 0;
             }
             if (breakMinutes === 0 && breakSeconds <= 6) {
                 breakSeconds--;
@@ -174,22 +176,25 @@
         }
     }
     function displayNextLevel() {
-        for (var key in blindStructure) {
-            if ((currentLevel + 2) % @Model.BreakFrequency === 0) {
-                document.getElementById("nextBlinds").innerHTML = '';
-                document.getElementById("nextLevel").innerHTML = 'Break';
+        if ((currentLevel + 2) % @Model.BreakFrequency === 0) {
+            document.getElementById("nextBlinds").innerHTML = '';
+            document.getElementById("nextLevel").innerHTML = 'Break';
+        }
+        else {
+            for (var key in blindStructure) {
+
+                if (key == nextLevel) {
+                    document.getElementById("nextBlinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
+                    document.getElementById("nextLevel").innerHTML = 'Level ' + (nextLevel + 1); //changed from currentLevel + 2
+                }
             }
-            else if (key == nextlevel) {
-                document.getElementById("nextBlinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
-                document.getElementById("nextLevel").innerHTML = 'Level ' + (currentLevel + 2);
-            } 
         }
     }
     function displayBreak() {
         document.getElementById("level").innerHTML = 'Break';
     }
-    function clearLevel() {
-        document.getElementById("level").innerHTML = '';
+    function clearBlinds() {
+        document.getElementById("blinds").innerHTML = '';
     }
 
     function beep() {
