@@ -58,15 +58,14 @@
     function levelTimer() {
 
         timerInterval = setInterval(function () {
-            if (levelMinutes === 0 && levelSeconds === 0) {
+            if (levelMinutes === 0 && levelSeconds === 1) {
                 if ((currentLevel + 2) % @Model.BreakFrequency === 0) {
                     pauseTimer();
-                    levelSeconds = 1;
+                    breakMinutes = @Model.BreakLength;
                     breakTimer();
                     displayBreak();
                     clearBlinds();
                     currentLevel++;
-                    //nextLevel++;
                     displayNextLevel();
                 }
                 else {
@@ -81,9 +80,16 @@
             }
             if (levelMinutes === 0 && levelSeconds <= 6)
             {
-                levelSeconds--;
-                document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + addZero().toString();
-                beep();
+                if (levelSeconds === 1) {
+                    levelSeconds--;
+                    document.getElementById("timer").innerHTML = breakMinutes.toString() + ' : ' + addZero().toString();
+                    beep();
+                }
+                else {
+                    levelSeconds--;
+                    document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + addZero().toString();
+                    beep();
+                }
              }
             else {
                 if (levelMinutes > 0 && levelSeconds === 0) {
@@ -102,21 +108,29 @@
     }
     function breakTimer() {
         breakTimerInterval = setInterval(function () {
-            if (breakMinutes === 0 && breakSeconds === 0) {
+            if (breakMinutes === 0 && breakSeconds === 1) {
                 pauseBreakTimer();
                 levelMinutes = @Model.LevelMinutes;
                 nextLevel++;
                 displayLevel();
                 displayNextLevel();
-                levelSeconds = 59;// added this to try and prevent the clock skip. this makes the following level go to 2 minutes instead of 1.
+                levelSeconds = 0;// making this 59 causes a skip to 58
                 levelTimer();
-                breakMinutes = @Model.BreakLength;
-                breakSeconds = 0;
+                @*breakMinutes = @Model.BreakLength;*@
+                //breakSeconds = 0;
             }
             if (breakMinutes === 0 && breakSeconds <= 6) {
-                breakSeconds--;
-                document.getElementById("timer").innerHTML = breakMinutes.toString() + ' : ' + addBreakZero().toString();
-                beep();
+                if (breakSeconds === 1) {
+                    breakSeconds--;
+                    document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + addBreakZero().toString();
+                    beep();
+                    
+                }
+                else {
+                    breakSeconds--;
+                    document.getElementById("timer").innerHTML = breakMinutes.toString() + ' : ' + addBreakZero().toString();
+                    beep();
+                }
             }
             else {
                 if (breakMinutes > 0 && breakSeconds === 0) {
