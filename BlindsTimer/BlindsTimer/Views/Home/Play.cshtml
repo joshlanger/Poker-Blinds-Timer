@@ -5,9 +5,9 @@
 
 <h1>Timer</h1>
 <p></p>
-<div>
-    <button onclick="levelTimer();">Start</button>
-    <button onclick="pauseTimer(); pauseBreakTimer();">Pause</button> @*extra pause added here*@
+<div id="buttonHolder">
+    <button id="levelTimerStart" onclick="levelTimer(); disableStart();">Start</button>
+    <button id="levelTimerPause" onclick="pauseTimer(); enableStart();" disabled>Pause</button> 
 </div>
 <p></p>
 
@@ -63,6 +63,7 @@
                     pauseTimer();
                     breakMinutes = @Model.BreakLength;
                     breakTimer();
+                    getBreakButtons();//added this
                     displayBreak();
                     clearBlinds();
                     currentLevel++;
@@ -116,6 +117,7 @@
                 displayNextLevel();
                 levelSeconds = 0;// making this 59 causes a skip to 58
                 levelTimer();
+                getLevelButtons();
                 @*breakMinutes = @Model.BreakLength;*@
                 //breakSeconds = 0;
             }
@@ -209,6 +211,50 @@
     }
     function clearBlinds() {
         document.getElementById("blinds").innerHTML = '';
+    }
+
+    function disableStart() {
+        document.getElementById("levelTimerStart").disabled = true;
+        document.getElementById("levelTimerPause").disabled = false;
+    }
+
+    function enableStart() {
+        document.getElementById("levelTimerStart").disabled = false;
+        document.getElementById("levelTimerPause").disabled = true;
+    }
+
+    const breakStartButton = document.createElement("button");
+    breakStartButton.innerHTML = "Start";
+    breakStartButton.disabled = true;
+    breakStartButton.onclick = function () {
+        breakTimer();
+        this.disabled = true;
+        breakPauseButton.disabled = false;
+    }
+
+    const breakPauseButton = document.createElement("button");
+    breakPauseButton.innerHTML = "Pause";
+    breakPauseButton.onclick = function () {
+        pauseBreakTimer();
+        this.disabled = true;
+        breakStartButton.disabled = false;
+    }
+
+    const levelStartButton = document.getElementById("levelTimerStart");
+    const levelPauseButton = document.getElementById("levelTimerPause");
+    const levelTimerButtons = document.getElementById("buttonHolder");
+    function getBreakButtons() {
+        levelTimerButtons.removeChild(levelStartButton);
+        levelTimerButtons.removeChild(levelPauseButton);
+        levelTimerButtons.appendChild(breakStartButton);
+        levelTimerButtons.appendChild(breakPauseButton);
+    }
+
+    function getLevelButtons() {
+        levelTimerButtons.removeChild(breakStartButton);
+        levelTimerButtons.removeChild(breakPauseButton);
+        levelTimerButtons.appendChild(levelStartButton);
+        levelTimerButtons.appendChild(levelPauseButton);
     }
 
     function beep() {
