@@ -8,6 +8,8 @@
 <div id="buttonHolder">
     <button id="levelTimerStart" onclick="levelTimer(); disableStart();">Start</button>
     <button id="levelTimerPause" onclick="pauseTimer(); enableStart();" disabled>Pause</button> 
+    <button id="fastForward" onclick="skipLevel();">></button> @*this isn't working correctly on breaks*@
+    <button id="rewind" onclick="previousLevel();"><</button>
 </div>
 <p></p>
 
@@ -46,8 +48,8 @@
     let currentLevel = 0;
     let nextLevel = 1;
 
-   
 
+    let onBreak = false;
     let breakMinutes = @Model.BreakLength;
     let breakSeconds = 0;
 
@@ -56,21 +58,21 @@
     let breakTimerInterval;
 
     function levelTimer() {
-
+        onBreak = false;
         timerInterval = setInterval(function () {
             if (levelMinutes === 0 && levelSeconds === 1) {
                 if ((currentLevel + 2) % @Model.BreakFrequency === 0) {
                     pauseTimer();
                     breakMinutes = @Model.BreakLength;
                     breakTimer();
-                    getBreakButtons();//added this
+                    getBreakButtons();
                     displayBreak();
                     clearBlinds();
                     currentLevel++;
                     displayNextLevel();
                 }
                 else {
-                    
+
                     levelMinutes = @Model.LevelMinutes;
                     levelSeconds = 0;
                     currentLevel++;
@@ -108,6 +110,7 @@
         }, 1000);
     }
     function breakTimer() {
+        onBreak = true;
         breakTimerInterval = setInterval(function () {
             if (breakMinutes === 0 && breakSeconds === 1) {
                 pauseBreakTimer();
@@ -126,7 +129,7 @@
                     breakSeconds--;
                     document.getElementById("timer").innerHTML = levelMinutes.toString() + ' : ' + addBreakZero().toString();
                     beep();
-                    
+
                 }
                 else {
                     breakSeconds--;
@@ -147,15 +150,8 @@
                 document.getElementById("timer").innerHTML = breakMinutes.toString() + ' : ' + addBreakZero().toString();
             }
         }, 1000);
-            
-    }
 
-    @*function displayBreak() {
-        if ((currentLevel + 2) % @Model.BreakFrequency === 0) {
-            pauseTimer();
-            breakTimer();
-        }
-    }*@
+    }
 
     function pauseTimer() {
         clearInterval(timerInterval);
@@ -182,10 +178,7 @@
 
     function displayLevel() {
         for (var key in blindStructure) {
-            @*if ((currentLevel + 1) % @Model.BreakFrequency === 0 && breakMinutes < @Model.BreakLength) {
-                document.getElementById("level").innerHTML = 'Break';
-            }*@
-            /*else */if (key == currentLevel) {
+           if (key == currentLevel) {
                 document.getElementById("blinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
                 document.getElementById("level").innerHTML = 'Level ' + (currentLevel + 1);
             }
@@ -198,16 +191,16 @@
         }
         else {
             for (var key in blindStructure) {
-
                 if (key == nextLevel) {
                     document.getElementById("nextBlinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
-                    document.getElementById("nextLevel").innerHTML = 'Level ' + (nextLevel + 1); //changed from currentLevel + 2
+                    document.getElementById("nextLevel").innerHTML = 'Level ' + (nextLevel + 1);
                 }
             }
         }
     }
     function displayBreak() {
         document.getElementById("level").innerHTML = 'Break';
+       
     }
     function clearBlinds() {
         document.getElementById("blinds").innerHTML = '';
@@ -242,19 +235,82 @@
 
     const levelStartButton = document.getElementById("levelTimerStart");
     const levelPauseButton = document.getElementById("levelTimerPause");
-    const levelTimerButtons = document.getElementById("buttonHolder");
+    const levelTimerButtons = document.getElementById("buttonHolder"); //this may not be needed anymore
     function getBreakButtons() {
-        levelTimerButtons.removeChild(levelStartButton);
-        levelTimerButtons.removeChild(levelPauseButton);
-        levelTimerButtons.appendChild(breakStartButton);
-        levelTimerButtons.appendChild(breakPauseButton);
+        levelStartButton.replaceWith(breakStartButton);
+        levelPauseButton.replaceWith(breakPauseButton);
     }
 
     function getLevelButtons() {
-        levelTimerButtons.removeChild(breakStartButton);
-        levelTimerButtons.removeChild(breakPauseButton);
-        levelTimerButtons.appendChild(levelStartButton);
-        levelTimerButtons.appendChild(levelPauseButton);
+        breakStartButton.replaceWith(levelStartButton);
+        breakPauseButton.replaceWith(levelPauseButton);
+    }
+
+    function skipLevel() {
+        @*if (onBreak) { //this block is screwed up somehow.  causing the break to be skipped entirely.
+            pauseBreakTimer();
+            breakMinutes = @Model.BreakLength;
+            breakSeconds = 0;
+            getLevelButtons();
+            currentLevel--;
+            //nextLevel++;
+            displayLevel();
+            displayNextLevel();
+            levelTimer();
+            
+        }*@
+
+        if ((currentLevel + 1) % @Model.BreakFrequency === 0) {
+            pauseBreakTimer();
+            breakMinutes = @Model.BreakLength;
+            breakSeconds = 0;
+            getLevelButtons();
+            displayLevel();
+            displayNextLevel();
+            levelTimer();
+            nextLevel++;
+        }
+        if ((currentLevel + 2) % @Model.BreakFrequency === 0) {
+                    pauseTimer();
+                    breakMinutes = @Model.BreakLength;
+                    breakTimer();
+                    getBreakButtons();
+                    displayBreak();
+                    clearBlinds();
+                    currentLevel++;
+                    displayNextLevel();
+        }
+        else {
+
+                    levelMinutes = @Model.LevelMinutes;
+                    levelSeconds = 0;
+                    currentLevel++;
+                    nextLevel++;
+                    displayLevel();
+                    displayNextLevel();
+        }
+    }
+
+    function previousLevel() {
+        if ((currentLevel) % @Model.BreakFrequency === 0) {
+                    pauseTimer();
+                    breakMinutes = @Model.BreakLength;
+                    breakTimer();
+                    getBreakButtons();
+                    displayBreak();
+                    clearBlinds();
+                    currentLevel--;
+                    displayNextLevel();
+                }
+                else {
+
+                    levelMinutes = @Model.LevelMinutes;
+                    levelSeconds = 0;
+                    currentLevel--;
+                    nextLevel--;
+                    displayLevel();
+                    displayNextLevel();
+                }
     }
 
     function beep() {
