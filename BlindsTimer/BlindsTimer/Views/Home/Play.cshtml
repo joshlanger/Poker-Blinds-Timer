@@ -49,7 +49,7 @@
     let nextLevel = 1;
     let nextNextLevel = 2;
 
-    let breakLocator = nextLevel % @Model.BreakFrequency;
+
     let onBreak = false;
     let breakMinutes = @Model.BreakLength;
     let breakSeconds = 0;
@@ -199,9 +199,18 @@
             }
         }
     }
+    function displayNextLevelDuringBreak() {
+        for (var key in blindStructure) {
+            if (key == (nextLevel -1)) {
+                document.getElementById("nextBlinds").innerHTML = 'Blinds ' + blindStructure[key].SmallBlind.toString() + ' / ' + blindStructure[key].BigBlind.toString();
+                document.getElementById("nextLevel").innerHTML = 'Level ' + (nextLevel);
+            }
+        }
+    }
+
     function displayBreak() {
         document.getElementById("level").innerHTML = 'Break';
-       
+
     }
     function clearBlinds() {
         document.getElementById("blinds").innerHTML = '';
@@ -258,30 +267,36 @@
             displayLevel();
             displayNextLevel();
             levelTimer();
-            
+
         }*@
-        switch (currentLevel + 2) {
-            
-        
-            case @Model.BreakFrequency:
+        let breakLocator = (nextLevel + 1) % @Model.BreakFrequency;
+        let levelAfterBreak = @Model.BreakFrequency;
+        switch (breakLocator) {
+
+
+            case @Model.BreakFrequency: //triggered coming out of break
                     pauseBreakTimer();
                     breakMinutes = @Model.BreakLength;
                     breakSeconds = 0;
-                    getLevelButtons();
+                getLevelButtons();
+                nextLevel--; //this is not updating nextLevel correctly.
+                nextLevel--;
                     displayLevel();
                     displayNextLevel();
                     levelTimer();
-                    nextLevel++;
+                
                 break;
-            case  (@Model.BreakFrequency - 1):
+            case 0: //triggered going into break
+                @*levelAfterBreak = @Model.BreakFrequency -1;*@
                     pauseTimer();
                     breakMinutes = @Model.BreakLength;
                     breakTimer();
                     getBreakButtons();
                     displayBreak();
                 clearBlinds();
+                //currentLevel++; //if currentlevel is in, the upnext display skips ahead one level. but with it out, upnext is showing break when on break.
                 nextLevel++;
-                    displayNextLevel();
+                    displayNextLevelDuringBreak();
                 break;
             default:
 
@@ -291,7 +306,7 @@
                     nextLevel++;
                     displayLevel();
                     displayNextLevel();
-                
+
         }
     }
 
