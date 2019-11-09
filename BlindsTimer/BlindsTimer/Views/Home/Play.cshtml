@@ -8,8 +8,8 @@
 <div id="buttonHolder">
     <button id="levelTimerStart" onclick="levelTimer(); disableStart();">Start</button>
     <button id="levelTimerPause" onclick="pauseTimer(); enableStart();" disabled>Pause</button> 
-    <button id="fastForward" onclick="skipLevel();">></button> @*this isn't working correctly on breaks*@
-    <button id="rewind" onclick="previousLevel();"><</button>
+    <button id="fastForward" onclick="skipLevel(); temporarySkipDisable('fastForward');">></button> @*this isn't working correctly on breaks*@
+    @*<button id="rewind" onclick="previousLevel(); temporarySkipDisable('rewind');"><</button>*@
 </div>
 <p></p>
 
@@ -224,6 +224,13 @@
     function enableStart() {
         document.getElementById("levelTimerStart").disabled = false;
         document.getElementById("levelTimerPause").disabled = true;
+    }
+
+    //prevents clock issues caused by pressing a button in quick succession
+    function temporarySkipDisable(buttonId) {
+        let button = document.getElementById(buttonId);
+        button.disabled = true;
+        setTimeout(function () { button.disabled = false; }, 1000);
     }
 
     const breakStartButton = document.createElement("button");
