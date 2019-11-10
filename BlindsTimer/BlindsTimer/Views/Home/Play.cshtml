@@ -17,29 +17,28 @@
     <source src="~/sounds/zapsplat_technology_cb_radio_two_way_beep_single_39804.mp3"/>
 </audio>
 
-
-<div id="current" class="box-shadow container-fluid" style="background-color:darkseagreen; padding:20px; margin-bottom:20px; display:flex; height:200px;">
-    <div class="col-md-6" style="display:flex; flex-direction:column; justify-content: space-between;">
-        <p id="level" class="maintext"></p>
-        <p id="blinds" class="maintext"></p>
-    </div>
-    <div class="col-md-6" style="display:flex; flex-direction:column; align-items:center; justify-content:center">
-        <p id="timer" style="font-size:500%;  font-weight:600; text-shadow:2px 2px 0 #999"></p>
+<div class= "container" style="height:500px; ">
+    <div class="row" style="height:100%; align-items:stretch">
+        <div id="current" class="box-shadow col-md-8" style="background-color:darkseagreen; padding:20px; height:100%; margin-bottom:20px; margin-right:20px; display:flex;">
+            <div class="col-md-6" style="display:flex; flex-direction:column; justify-content: space-between;">
+                <p id="level" style="font-size:300%; font-weight:600; text-shadow:2px 2px 0 #999"></p>
+                <p id="blinds" style="font-size:300%; font-weight:600; text-shadow:2px 2px 0 #999"></p>
+            </div>
+            <div class="" style="display:flex; flex-direction:column; align-items:center; justify-content:center">
+                <p id="timer" style="font-size:700%; font-weight:600; text-shadow:2px 2px 0 #999"></p>
+            </div>
+        </div>
+        <div id="next" class="box-shadow col-md-offset-9 col-md-4;" style="display:flex; flex-direction:column; justify-content:space-between; padding:20px; margin-bottom:20px; background-color:lightgrey;">
+            <div class="" style="display:flex">
+                <p style="font-size:300%;  font-weight:600; text-shadow:2px 2px 0 #999">Up Next:</p>
+            </div>
+            <div style="display:flex; " class="maintext rightside">
+                <p id="nextLevel"></p>
+                <p id="nextBlinds"></p>
+            </div>
+        </div>
     </div>
 </div>
-
-<div id="next" class="container-fluid box-shadow" style="display:flex; padding:20px; background-color:lightgrey;" >
-    <div class="col-md-6" style="display:flex; align-items:center">
-        <p style="font-size:300%;  font-weight:600; text-shadow:2px 2px 0 #999">Up Next:</p>
-    </div>
-    <div class="col-md-6 maintext rightside">
-        <p id="nextLevel"></p>
-        <p id="nextBlinds"></p>
-    </div>
-    
-    
-</div>
-
 
 <script>
 
